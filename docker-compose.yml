@@ -1,0 +1,11 @@
+version: "2"
+services:
+
+  funda:
+    build: .
+    env_file: .env
+    container_name: funda
+    ports:
+      - '${APP_PORT}:8080'
+    volumes:
+          - ./:/go/src/funda
