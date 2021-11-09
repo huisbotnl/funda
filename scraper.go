@@ -54,7 +54,7 @@ func ConnectToDatabase() {
 }
 
 func grabWithMap() {
-	url := "/koop/heel-nederland/sorteer-datum-af/"
+	url := "/en/koop/heel-nederland/sorteer-datum-af/"
 	c := colly.NewCollector()
 	c.OnResponse(func(response *colly.Response) {
 		//fmt.Println(string(response.Body))
