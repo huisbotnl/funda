@@ -72,7 +72,9 @@ func grabWithMap() {
 					if room.ID != 0 {
 						return false
 					}
-					hp := strings.Split(strings.Split(strings.Split(href, "?")[0], "/")[3], "-")
+					parts := strings.Split(strings.Split(href, "?")[0], "/")
+					room.City = parts[2]
+					hp := strings.Split(parts[len(parts)-2], "-")
 					room.Type = roomTypes[hp[0]]
 					room.Districts += hp[2]
 					for i := 3; i < len(hp); i++ {
@@ -99,7 +101,7 @@ func grabWithMap() {
 				return true
 			})
 			if room.ID == 0 {
-				DB.Create(&room)
+				//DB.Create(&room)
 			}
 		})
 		e.ForEach("li[class=search-result]", func(i int, el *colly.HTMLElement) {
@@ -118,7 +120,7 @@ func grabWithMap() {
 						}
 						parts := strings.Split(strings.Split(href, "?")[0], "/")
 						room.City = parts[2]
-						hp := strings.Split(parts[3], "-")
+						hp := strings.Split(parts[len(parts)-2], "-")
 						room.Type = roomTypes[hp[0]]
 						room.Districts += hp[2]
 						for i := 3; i < len(hp); i++ {
@@ -156,7 +158,7 @@ func grabWithMap() {
 						}
 						parts := strings.Split(strings.Split(href, "?")[0], "/")
 						room.City = parts[2]
-						hp := strings.Split(parts[3], "-")
+						hp := strings.Split(parts[len(parts)-2], "-")
 						room.Type = roomTypes[hp[0]]
 						room.Districts += hp[2]
 						for i := 3; i < len(hp); i++ {
