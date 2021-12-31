@@ -657,7 +657,6 @@ var neighborhoodsMap = map[string]map[string]interface{}{
 	"Generaal van Geenplein": {
 		"key": "generaal_van_geenplein",
 	},
-
 	"raadhuisstraat 26": {
 		"key": "raadhuisstraat",
 	},

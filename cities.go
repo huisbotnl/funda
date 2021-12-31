@@ -3,140 +3,139 @@ package main
 import "github.com/jinzhu/gorm"
 
 var citiesMap = map[string]map[string]interface{}{
-	"Alkmaar": {
+	"alkmaar": {
 		"key": "alkmaar",
 	},
-	"Almere-Stad": {
+	"almere-stad": {
 		"key": "almere_stad",
 	},
-	"Alphen aan den Rijn": {
+	"alphen-aan-den-rijn": {
 		"key": "alphen_aan_den_rijn",
 	},
-	"Amersfoort": {
+	"amersfoort": {
 		"key": "amersfoort",
 	},
-	"Amstelveen": {
+	"amstelveen": {
 		"key": "amstelveen",
 	},
-	"Amsterdam": {
+	"amsterdam": {
 		"key": "amsterdam",
 	},
-	"Bleiswijk": {
+	"bleiswijk": {
 		"key": "bleiswijk",
 	},
-	"Capelle aan den IJssel": {
+	"capelle-aan=den--jssel": {
 		"key": "capelle_aan_den_i_jssel",
 	},
-	"Delft": {
+	"delft": {
 		"key": "delft",
 	},
-	"Diemen": {
+	"diemen": {
 		"key": "diemen",
 	},
-	"Driebergen-rijsenburg": {
+	"driebergen-rijsenburg": {
 		"key": "driebergen_rijsenburg",
 	},
-	"Egmond aan den Hoef": {
+	"egmond-aan-den-hoef": {
 		"key": "egmond_aan_den_hoef",
 	},
-	"Enschede": {
+	"enschede": {
 		"key": "enschede",
 	},
-	"Groningen": {
+	"groningen": {
 		"key": "groningen",
 	},
-	"Haarlem": {
+	"haarlem": {
 		"key": "haarlem",
 	},
-	"Haren": {
+	"haren": {
 		"key": "haren",
 	},
-	"Hazerswoude-Rijndijk": {
+	"hazerswoude-Rijndijk": {
 		"key": "hazerswoude_rijndijk",
 	},
-	"Hengelo": {
+	"hengelo": {
 		"key": "hengelo",
 	},
-	"Hillegom": {
+	"hillegom": {
 		"key": "hillegom",
 	},
-	"Hilversum": {
+	"hilversum": {
 		"key": "hilversum",
 	},
-	"Hoofddorp": {
+	"hoofddorp": {
 		"key": "hoofddorp",
 	},
-	"Leiden": {
+	"leiden": {
 		"key": "leiden",
 	},
-	"Maarssen": {
+	"maarssen": {
 		"key": "maarssen",
 	},
-	"Nieuw-Vennep": {
+	"nieuw-vennep": {
 		"key": "nieuw_vennep",
 	},
-	"Nieuwveen": {
+	"nieuwveen": {
 		"key": "nieuwveen",
 	},
-	"Ouderkerk aan de Amstel": {
+	"ouderkerk aan de Amstel": {
 		"key": "ouderkerk_aan_de_amstel",
 	},
-	"Putten": {
+	"putten": {
 		"key": "putten",
 	},
-	"Rijswijk": {
+	"rijswijk": {
 		"key": "rijswijk",
 	},
-	"Rotterdam": {
+	"rotterdam": {
 		"key": "rotterdam",
 	},
-	"Scheveningen": {
+	"scheveningen": {
 		"key": "scheveningen",
 	},
-	"Schiedam": {
+	"schiedam": {
 		"key": "schiedam",
 	},
-	"The Hague": {
+	"the-hague": {
 		"key": "the_hague",
 	},
-	"Nieuwegein": {
+	"nieuwegein": {
 		"key": "nieuwegein",
 	},
-	"Breda": {
+	"breda": {
 		"key": "breda",
 	},
-	"Utrecht": {
+	"utrecht": {
 		"key": "utrecht",
 	},
-	"Veenendaal": {
+	"veenendaal": {
 		"key": "veenendaal",
 	},
-	"Voorburg": {
+	"voorburg": {
 		"key": "voorburg",
 	},
-	"Voorschoten": {
+	"voorschoten": {
 		"key": "voorschoten",
 	},
-	"Warmond": {
+	"warmond": {
 		"key": "warmond",
 	},
-	"Zaandam": {
+	"zaandam": {
 		"key": "zaandam",
 	},
-	"Zeist": {
+	"zeist": {
 		"key": "zeist",
 	},
-
-	"Zoetermeer": {
+	"zoetermeer": {
 		"key": "zoetermeer",
 	},
-	"Almere": {
+	"almere": {
 		"key": "almere",
 	},
-	"Maastricht": {
+	"maastricht": {
 		"key": "maastricht",
 	},
-	"Vlaardingen": {
+	"vlaardingen": {
 		"key": "vlaardingen",
 	},
 	"koop": {
