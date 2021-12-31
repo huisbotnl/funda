@@ -13,8 +13,8 @@ func main()  {
 	g.Use(CORSMiddleware())
 	g.Use(gin.Logger())
 	g.Use(gin.Recovery())
-	//grabWithMap()
 	ConnectToDatabase()
+	setupDataMaps()
 	jobs()
 	_ = g.Run(":8080")
 }

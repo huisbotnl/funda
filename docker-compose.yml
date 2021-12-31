@@ -9,12 +9,3 @@ services:
       - '${APP_PORT}:8080'
     volumes:
           - ./:/go/src/funda
-    networks:
-      scraper:
-        aliases:
-          - funda
-
-networks:
-  scraper:
-    external: true
-    driver: bridge
