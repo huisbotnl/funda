@@ -8,8 +8,6 @@ import (
 	"strings"
 )
 
-var rooms []Room
-
 func setupDataMaps() {
 	setupAmenitiesMap()
 	setupBedroomsMap()
@@ -68,7 +66,6 @@ func grabWithMap() {
 				return true
 			})
 			if room.ID == 0 {
-				//rooms = append(rooms, room)
 				room.Create()
 			}
 		})
@@ -114,7 +111,6 @@ func grabWithMap() {
 				room.Price = priceParts[1]
 				room.PricePeriod = priceParts[2]
 			})
-			//rooms = append(rooms, room)
 			room.Create()
 		endOfIteration:
 		})
@@ -160,7 +156,6 @@ func grabWithMap() {
 				room.Price = priceParts[1]
 				room.PricePeriod = priceParts[2]
 			})
-			//rooms = append(rooms, room)
 			room.Create()
 		endOfIteration:
 		})
@@ -175,43 +170,6 @@ func grabWithMap() {
 	errr := c.Visit(os.Getenv("BASE_SCRAPER_URL") + url)
 	if errr != nil {
 		fmt.Println("errr", errr.Error())
-	}
-	for _, room := range rooms {
-		cn := colly.NewCollector()
-		cn.OnHTML(`div`, func(e *colly.HTMLElement) {
-			room.SetDistrict(after(e.ChildText("h1[class=article__title]"), ", "))
-			found := false
-			e.ForEach("div[class=field]", func(i int, el *colly.HTMLElement) {
-				if el.ChildAttr("span", "class") == "property__label label label--interior" {
-					room.SetFurniture(strings.TrimSpace(after(el.Text, "Interior: ")))
-					found = true
-				}
-				if el.ChildAttr("span", "class") == "property__label label label--bedrooms" {
-					room.SetBedroom(strings.TrimSpace(after(el.Text, "Bedrooms: ")))
-				}
-				if el.ChildAttr("div", "class") == "label-above" {
-					room.AddFacility(before(el.ChildText("div"), ":"))
-				}
-			})
-			if !found {
-				room.SetFurniture("No")
-			}
-			room.Create()
-		})
-		cn.OnResponse(func(response *colly.Response) {
-			//fmt.Println(string(response.Body))
-		})
-		cn.OnRequest(func(r *colly.Request) {
-			fmt.Println("Visiting", r.URL)
-			(*r.Headers)["User-Agent"] = []string{"*"}
-		})
-		cn.OnError(func(r *colly.Response, err error) {
-			fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
-		})
-		errr := cn.Visit(room.Url)
-		if errr != nil {
-			fmt.Println("errr", errr.Error())
-		}
 	}
 }
 
