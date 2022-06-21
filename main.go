@@ -16,7 +16,7 @@ func main()  {
 	ConnectToDatabase()
 	setupDataMaps()
 	jobs()
-	_ = g.Run(":8082")
+	_ = g.Run(":8080")
 }
 
 func CORSMiddleware() gin.HandlerFunc {
