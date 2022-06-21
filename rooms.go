@@ -126,14 +126,22 @@ func (room *Room) AddFacility(value string) {
 }
 
 func (room Room) Create() {
-	if
-	room.TypeId != 0 &&
-		room.DistrictsId != 0 &&
-		room.CityId != 0 &&
-		room.BedroomId != 0 &&
-		room.FurnitureId != 0 {
-		DB.Create(&room)
-	}else {
-		DB.Create(room.UnMatchedRoom())
+	oldRoom := Room{}
+	DB.Where("url = ?", room.Url).First(&oldRoom)
+	if oldRoom.ID == 0 {
+		if
+		room.TypeId != 0 &&
+			room.DistrictsId != 0 &&
+			room.CityId != 0 &&
+			room.BedroomId != 0 &&
+			room.FurnitureId != 0 {
+			DB.Create(&room)
+		} else {
+			oldUnMatchedRoom := UnMatchedRoom{}
+			DB.Where("url = ?", room.Url).First(&oldUnMatchedRoom)
+			if oldUnMatchedRoom.ID == 0 {
+				DB.Create(room.UnMatchedRoom())
+			}
+		}
 	}
 }
