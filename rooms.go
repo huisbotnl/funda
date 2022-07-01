@@ -69,21 +69,30 @@ func (room Room) UnMatchedRoom() *UnMatchedRoom {
 }
 
 func (room *Room) SetCity(value string) {
-	if data, ok := citiesMap[value]; ok {
-		room.CityId = data["id"].(int)
-		room.City = data["name"].(string)
-	}else {
-		room.City = value
+	var city City
+	key := RemoveSpecialCharacterAndToLower(value)
+	DB.Where("(`key` = ?)", key).First(&city)
+	if city.ID == 0 {
+		city.Name = value
+		city.Key = key
+		DB.Save(&city)
 	}
+	room.CityId = int(city.ID)
+	room.City = city.Name
 }
 
-func (room *Room) SetDistrict(value string) {
-	if data, ok := neighborhoodsMap[value]; ok {
-		room.DistrictsId = data["id"].(int)
-		room.Districts = data["name"].(string)
-	}else {
-		room.Districts = value
+func (room *Room) SetDistrict(value string, CityId int) {
+	var neighbourhood Neighbourhood
+	key := RemoveSpecialCharacterAndToLower(value)
+	DB.Where("(`key` = ?)", key).First(&neighbourhood)
+	if neighbourhood.ID == 0 {
+		neighbourhood.Name = value
+		neighbourhood.Key = key
+		neighbourhood.CityId = CityId
+		DB.Save(&neighbourhood)
 	}
+	room.DistrictsId = int(neighbourhood.ID)
+	room.Districts = neighbourhood.Name
 }
 
 func (room *Room) SetType(value string) {

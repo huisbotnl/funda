@@ -22,7 +22,7 @@ func grabWithMap() {
 	url := "/en/koop/heel-nederland/sorteer-datum-af/"
 	c := colly.NewCollector()
 	c.OnResponse(func(response *colly.Response) {
-		//fmt.Println(string(response.Body))
+		fmt.Println(string(response.Body))
 	})
 	c.OnHTML(`div[class=search-content-output]`, func(e *colly.HTMLElement) {
 		e.ForEach("li[class=top-position-item-container]", func(i int, el *colly.HTMLElement) {
@@ -46,7 +46,7 @@ func grabWithMap() {
 					for i := 3; i < len(hp); i++ {
 						room.Districts += " " + hp[i]
 					}
-					room.SetDistrict(room.Districts)
+					room.SetDistrict(room.Districts, room.CityId)
 					el.ForEach("span[class=top-position-object-description]", func(i int, el *colly.HTMLElement) {
 						s := strings.Split(el.Text, " ")
 						index := 0
@@ -92,7 +92,7 @@ func grabWithMap() {
 						for i := 3; i < len(hp); i++ {
 							room.Districts += " " + hp[i]
 						}
-						room.SetDistrict(room.Districts)
+						room.SetDistrict(room.Districts, room.CityId)
 						return false
 					}
 					return true
@@ -137,7 +137,7 @@ func grabWithMap() {
 						for i := 3; i < len(hp); i++ {
 							room.Districts += " " + hp[i]
 						}
-						room.SetDistrict(room.Districts)
+						room.SetDistrict(room.Districts, room.CityId)
 						return false
 					}
 					return true

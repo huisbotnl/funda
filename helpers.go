@@ -64,3 +64,12 @@ func ReplaceSpecialCharacter(text string) string{
 	}
 	return reg.ReplaceAllString(text, " ")
 }
+
+func RemoveSpecialCharacterAndToLower(text string) string{
+	// Make a Regex to say we only want letters and numbers
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.ToLower(reg.ReplaceAllString(text, ""))
+}
