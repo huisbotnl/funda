@@ -99,7 +99,7 @@ func (room *Room) SetType(value string) {
 	if data, ok := typeMap[value]; ok {
 		room.TypeId = data["id"].(int)
 		room.Type = data["name"].(string)
-	}else {
+	} else {
 		room.Type = value
 	}
 }
@@ -108,7 +108,7 @@ func (room *Room) SetBedroom(value string) {
 	if data, ok := bedroomsMap[value]; ok {
 		room.BedroomId = data["id"].(int)
 		room.Bedroom = data["name"].(string)
-	}else {
+	} else {
 		room.Bedroom = value
 	}
 }
@@ -117,7 +117,7 @@ func (room *Room) SetFurniture(value string) {
 	if data, ok := furnituresMap[value]; ok {
 		room.FurnitureId = data["id"].(int)
 		room.Furniture = data["name"].(string)
-	}else {
+	} else {
 		room.Furniture = value
 	}
 }
@@ -135,22 +135,22 @@ func (room *Room) AddFacility(value string) {
 }
 
 func (room Room) Create() {
-	oldRoom := Room{}
-	DB.Where("url = ?", room.Url).First(&oldRoom)
-	if oldRoom.ID == 0 {
-		if
-		room.TypeId != 0 &&
-			room.DistrictsId != 0 &&
-			room.CityId != 0 &&
-			room.BedroomId != 0 &&
-			room.FurnitureId != 0 {
+	if
+	room.TypeId != 0 &&
+		room.DistrictsId != 0 &&
+		room.CityId != 0 &&
+		room.BedroomId != 0 &&
+		room.FurnitureId != 0 {
+		oldRoom := Room{}
+		DB.Where("url = ?", room.Url).First(&oldRoom)
+		if oldRoom.ID == 0 {
 			DB.Create(&room)
-		} else {
-			oldUnMatchedRoom := UnMatchedRoom{}
-			DB.Where("url = ?", room.Url).First(&oldUnMatchedRoom)
-			if oldUnMatchedRoom.ID == 0 {
-				DB.Create(room.UnMatchedRoom())
-			}
+		}
+	} else {
+		oldUnMatchedRoom := UnMatchedRoom{}
+		DB.Where("url = ?", room.Url).First(&oldUnMatchedRoom)
+		if oldUnMatchedRoom.ID == 0 {
+			DB.Create(room.UnMatchedRoom())
 		}
 	}
 }

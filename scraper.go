@@ -11,10 +11,10 @@ import (
 func setupDataMaps() {
 	setupAmenitiesMap()
 	setupBedroomsMap()
-	setupCitiesMap()
+	//setupCitiesMap()
 	setupFacilitiesMap()
 	setupFurnituresMap()
-	setupNeighborhoodsMap()
+	//setupNeighborhoodsMap()
 	setupTypesMap()
 }
 
