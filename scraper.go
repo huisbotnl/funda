@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var rooms = make(map[string]Room)
+
 func setupDataMaps() {
 	setupAmenitiesMap()
 	setupBedroomsMap()
@@ -19,10 +21,10 @@ func setupDataMaps() {
 }
 
 func grabWithMap() {
-	url := "/en/koop/heel-nederland/sorteer-datum-af/"
+	url := "/en/huur/heel-nederland/sorteer-datum-af/"
 	c := colly.NewCollector()
 	c.OnResponse(func(response *colly.Response) {
-		fmt.Println(string(response.Body))
+		//fmt.Println(string(response.Body))
 	})
 	c.OnHTML(`div[class=search-content-output]`, func(e *colly.HTMLElement) {
 		e.ForEach("li[class=top-position-item-container]", func(i int, el *colly.HTMLElement) {
@@ -39,14 +41,9 @@ func grabWithMap() {
 						return false
 					}
 					parts := strings.Split(strings.Split(href, "?")[0], "/")
-					room.SetCity(parts[2])
+					room.SetCity(parts[3])
 					hp := strings.Split(parts[len(parts)-2], "-")
 					room.SetType(hp[0])
-					room.Districts = hp[2]
-					for i := 3; i < len(hp); i++ {
-						room.Districts += " " + hp[i]
-					}
-					room.SetDistrict(room.Districts, room.CityId)
 					el.ForEach("span[class=top-position-object-description]", func(i int, el *colly.HTMLElement) {
 						s := strings.Split(el.Text, " ")
 						index := 0
@@ -66,7 +63,8 @@ func grabWithMap() {
 				return true
 			})
 			if room.ID == 0 {
-				room.Create()
+				rooms[room.Url] = room
+				//room.Create()
 			}
 		})
 		e.ForEach("li[class=search-result]", func(i int, el *colly.HTMLElement) {
@@ -85,14 +83,9 @@ func grabWithMap() {
 							return false
 						}
 						parts := strings.Split(strings.Split(href, "?")[0], "/")
-						room.SetCity(parts[2])
+						room.SetCity(parts[3])
 						hp := strings.Split(parts[len(parts)-2], "-")
 						room.SetType(hp[0])
-						room.Districts = hp[2]
-						for i := 3; i < len(hp); i++ {
-							room.Districts += " " + hp[i]
-						}
-						room.SetDistrict(room.Districts, room.CityId)
 						return false
 					}
 					return true
@@ -111,7 +104,8 @@ func grabWithMap() {
 				room.Price = priceParts[1]
 				room.PricePeriod = priceParts[2]
 			})
-			room.Create()
+			rooms[room.Url] = room
+			//room.Create()
 		endOfIteration:
 		})
 		e.ForEach("div[class=search-result-content-info--object]", func(i int, el *colly.HTMLElement) {
@@ -130,14 +124,9 @@ func grabWithMap() {
 							return false
 						}
 						parts := strings.Split(strings.Split(href, "?")[0], "/")
-						room.SetCity(parts[2])
+						room.SetCity(parts[3])
 						hp := strings.Split(parts[len(parts)-2], "-")
 						room.SetType(hp[0])
-						room.Districts += hp[2]
-						for i := 3; i < len(hp); i++ {
-							room.Districts += " " + hp[i]
-						}
-						room.SetDistrict(room.Districts, room.CityId)
 						return false
 					}
 					return true
@@ -156,7 +145,8 @@ func grabWithMap() {
 				room.Price = priceParts[1]
 				room.PricePeriod = priceParts[2]
 			})
-			room.Create()
+			rooms[room.Url] = room
+			//room.Create()
 		endOfIteration:
 		})
 	})
@@ -170,6 +160,34 @@ func grabWithMap() {
 	errr := c.Visit(os.Getenv("BASE_SCRAPER_URL") + url)
 	if errr != nil {
 		fmt.Println("errr", errr.Error())
+	}
+
+	for _, room := range rooms {
+		cn := colly.NewCollector()
+		cn.OnHTML(`div[class=object-buurt]`, func(e *colly.HTMLElement) {
+			n1, n2 := e.ChildText("p[class=object-buurt__name]"), e.ChildAttr("div", "data-local-insights-entry-point")
+			if n1 != "" {
+				room.Districts = strings.Split(n1, ", ")[0]
+			}else if n2 != "" {
+				room.Districts = strings.Split(n2, "/")[0]
+			}
+			room.SetDistrict(room.Districts, room.CityId)
+			room.Create()
+		})
+		cn.OnResponse(func(response *colly.Response) {
+			//fmt.Println(string(response.Body))
+		})
+		cn.OnRequest(func(r *colly.Request) {
+			fmt.Println("Visiting", r.URL)
+			(*r.Headers)["User-Agent"] = []string{"*"}
+		})
+		cn.OnError(func(r *colly.Response, err error) {
+			fmt.Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
+		})
+		errr := cn.Visit(room.Url)
+		if errr != nil {
+			fmt.Println("errr", errr.Error())
+		}
 	}
 }
 

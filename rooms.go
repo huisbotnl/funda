@@ -24,7 +24,7 @@ type Room struct {
 	Facilities    string `json:"facilities" gorm:"type:text;index"`
 	AmenitiesIds  string `json:"amenities_ids" gorm:"type:text;index"`
 	Amenities     string `json:"amenities" gorm:"type:text;index"`
-	Url           string `json:"url" gorm:"type:varchar(100);index"`
+	Url           string `json:"url" gorm:"type:varchar(200);index"`
 	ScraperName   string `json:"scraper_name" gorm:"type:varchar(20);index"`
 	Image         string `json:"image" gorm:"type:varchar(200);index"`
 }
