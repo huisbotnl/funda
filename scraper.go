@@ -102,7 +102,8 @@ func grabWithMap() {
 			el.ForEach("span[class=search-result-price]", func(i int, el *colly.HTMLElement) {
 				priceParts := strings.Split(el.Text, " ")
 				room.Price = priceParts[1]
-				room.PricePeriod = priceParts[2]
+				//room.PricePeriod = priceParts[2]
+				room.PricePeriod = "month"
 			})
 			rooms[room.Url] = room
 			//room.Create()
@@ -143,7 +144,8 @@ func grabWithMap() {
 			el.ForEach("span[class=search-result-price]", func(i int, el *colly.HTMLElement) {
 				priceParts := strings.Split(el.Text, " ")
 				room.Price = priceParts[1]
-				room.PricePeriod = priceParts[2]
+				//room.PricePeriod = priceParts[2]
+				room.PricePeriod = "month"
 			})
 			rooms[room.Url] = room
 			//room.Create()
